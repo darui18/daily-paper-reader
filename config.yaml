@@ -97,3 +97,24 @@ subscriptions:
         - "NeRF and 3D Gaussian Splatting for robot environment understanding"
         - "spatial reasoning in vision-language-action models"
         - "implicit 3D representations for contact-rich manipulation"
+    - tag: embodied_fm
+      description: "具身基础模型（含国产大厂）"
+      enabled: true
+      paper_sources:
+        - arxiv
+        - conference
+      keywords:
+        - Qwen-Robot
+        - ABot
+        - LingBot
+        - embodied foundation model
+        - world action model
+        - MotuBrain
+        - VLA navigation
+        - embodied world model
+      intent_queries:
+        - "Qwen-Robot series embodied AI from Alibaba"
+        - "ABot navigation and manipulation foundation model from AMap"
+        - "LingBot video-action world model from Ant Group"
+        - "Chinese embodied foundation model and VLA system"
+        - "world action model unifying prediction and control for robotics"
