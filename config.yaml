@@ -1,0 +1,94 @@
+github:
+  owner: 'darui18'
+  repo: daily-paper-reader
+arxiv_paper_setting:
+  mode: standard
+  days_window: 9
+  docs_dir: docs
+  prefer_supabase_read: true
+supabase:
+  enabled: true
+  url: https://lyucdwgefyfbmaiopjbk.supabase.co
+  anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
+  papers_table: arxiv_papers
+  use_vector_rpc: true
+  vector_rpc: match_arxiv_papers
+  vector_rpc_ann: match_arxiv_papers
+  vector_rpc_exact: match_arxiv_papers_exact
+  use_bm25_rpc: true
+  bm25_rpc: match_arxiv_papers_bm25
+  sync_table: arxiv_sync_status
+  sync_success_value: success
+  schema: public
+subscriptions:
+  schema_migration:
+    stage: A
+    diff_threshold_pct: 15
+  keyword_recall_mode: or
+  intent_profiles:
+    - tag: vla
+      description: "VLA 模型与基础架构"
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - Vision-Language-Action model
+        - VLA robot manipulation
+        - vision language action policy
+        - robot foundation model
+        - open vocabulary manipulation
+      intent_queries:
+        - "Vision-Language-Action models for generalist robot manipulation policy"
+        - "open vocabulary robotic manipulation with vision-language models"
+        - "robot foundation model pretraining on diverse embodiment data"
+        - "action tokenization and discretization for VLA models"
+        - "scaling vision-language-action models for robotics"
+    - tag: mobile_manipulation
+      description: "移动操作与导航"
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - mobile manipulation
+        - legged manipulation
+        - mobile robot arm
+        - navigation manipulation
+        - locomotion manipulation
+      intent_queries:
+        - "mobile base manipulation with robotic arm for long horizon tasks"
+        - "legged robot locomotion and manipulation coordination"
+        - "navigation to manipulate in unstructured environments"
+        - "whole-body control for mobile manipulators"
+        - "mobile pick and place in household environments"
+    - tag: diffusion_policy
+      description: "扩散策略与动作生成"
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - diffusion policy robot
+        - action diffusion model
+        - flow matching robot
+        - action chunking transformer
+        - imitation learning robotics
+      intent_queries:
+        - "diffusion policies for robotic manipulation action generation"
+        - "flow matching for robot visuomotor policy learning"
+        - "action chunking with transformers for high frequency robot control"
+        - "behavior cloning with diffusion models for dexterous manipulation"
+    - tag: nerf_3d
+      description: "三维视觉与场景表示"
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - NeRF robot
+        - 3D scene representation manipulation
+        - gaussian splatting robot
+        - spatial understanding VLA
+        - 3D vision robotics
+      intent_queries:
+        - "3D scene representation for robotic manipulation and grasping"
+        - "NeRF and 3D Gaussian Splatting for robot environment understanding"
+        - "spatial reasoning in vision-language-action models"
+        - "implicit 3D representations for contact-rich manipulation"
