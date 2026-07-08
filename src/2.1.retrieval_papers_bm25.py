@@ -1024,12 +1024,12 @@ def main() -> None:
     return
 
   query_groups = group_queries_by_source(queries)
-  for source_key in query_groups:
+  for source_key in list(query_groups):
     if source_key == ARXIV_SOURCE_KEY:
       continue
     if not get_source_backend(config, source_key):
       log(f"[WARN] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}，跳过。")
-      continue
+      del query_groups[source_key]
   multi_source_backend = resolve_multi_source_bm25_backend(config, queries) if multi_source_rpc_enabled() else None
 
   def run_supabase_rank_for_source(output_path: str, source_key: str, source_queries: List[dict]) -> dict | None:
@@ -1044,7 +1044,8 @@ def main() -> None:
     if not backend_enabled:
       if source_key == ARXIV_SOURCE_KEY:
         return None
-      raise RuntimeError(f"论文源「{source_key}」未配置可用的 BM25 RPC。")
+      log(f"[WARN] 论文源「{source_key}」未配置可用的 BM25 RPC，跳过。")
+      return None
 
     label = os.path.basename(output_path)
     if args.top_k is None or args.top_k <= 0:

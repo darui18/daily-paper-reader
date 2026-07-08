@@ -1257,12 +1257,12 @@ def main() -> None:
   # 注意：分组会复制 query dict。必须在 embedding hydrate 之后再分组，
   # 否则 source_queries 会拿到不含 query_embedding 的旧副本。
   query_groups = group_queries_by_source(queries)
-  for source_key in query_groups:
+  for source_key in list(query_groups):
     if source_key == ARXIV_SOURCE_KEY:
       continue
     if not get_source_backend(config, source_key):
       log(f"[WARN] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}，跳过。")
-      continue
+      del query_groups[source_key]
 
   def run_supabase_vector_recall_for_source(
     output_path: str,
@@ -1283,7 +1283,8 @@ def main() -> None:
     if not backend_enabled:
       if source_key == ARXIV_SOURCE_KEY:
         return None
-      raise RuntimeError(f"论文源「{source_key}」未配置可用的向量 RPC。")
+      log(f"[WARN] 论文源「{source_key}」未配置可用的向量 RPC，跳过。")
+      return None
 
     label = os.path.basename(output_path)
     if isinstance(top_k, int) and top_k > 0:
