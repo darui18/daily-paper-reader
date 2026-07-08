@@ -22,8 +22,10 @@ except Exception:  # pragma: no cover
 
 
 ARXIV_SOURCE_KEY = "arxiv"
+CONFERENCE_VIRTUAL_SOURCE = "conference"
 DEFAULT_SUPPORTED_SOURCES = (
     ARXIV_SOURCE_KEY,
+    CONFERENCE_VIRTUAL_SOURCE,
     "biorxiv",
     "medrxiv",
     "chemrxiv",
