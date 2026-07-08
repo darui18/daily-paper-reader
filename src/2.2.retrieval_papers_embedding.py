@@ -1261,8 +1261,8 @@ def main() -> None:
     if source_key == ARXIV_SOURCE_KEY:
       continue
     if not get_source_backend(config, source_key):
-      log(f"[ERROR] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}。")
-      return
+      log(f"[WARN] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}，跳过。")
+      continue
 
   def run_supabase_vector_recall_for_source(
     output_path: str,

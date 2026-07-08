@@ -1028,8 +1028,8 @@ def main() -> None:
     if source_key == ARXIV_SOURCE_KEY:
       continue
     if not get_source_backend(config, source_key):
-      log(f"[ERROR] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}。")
-      return
+      log(f"[WARN] 词条引用了论文源「{source_key}」，但未配置 source_backends.{source_key}，跳过。")
+      continue
   multi_source_backend = resolve_multi_source_bm25_backend(config, queries) if multi_source_rpc_enabled() else None
 
   def run_supabase_rank_for_source(output_path: str, source_key: str, source_queries: List[dict]) -> dict | None:
