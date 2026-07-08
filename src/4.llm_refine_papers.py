@@ -388,6 +388,18 @@ def call_filter(
                 req_lines.append(f"{idx}. {desc} [tag={req_tag}]")
             else:
                 req_lines.append(f"{idx}. {desc}")
+    chinese_style_guide = (
+        "\n\n中文写作风格要求：\n"
+        "读者是机器人工程师。请用大白话写所有中文字段，遵循以下规则：\n"
+        "\n可正常使用的通用术语：VLA、世界模型、扩散策略、端到端、Token化、行为克隆、动作分块、真机实验、仿真迁移、Sim2Real。这些领域通用词不需要额外解释。\n"
+        "\n必须避免的空洞黑话："
+        "不要用"底层策略""高层规划器""多级推理层次""任务级表征""跨模态对齐"这类没有上下文根本看不懂的词。"
+        "要写具体的——"底层策略"写清楚是"负责控制电机/关节动作的那个模块"，"高层规划器"写清楚是"负责把'拿杯子'拆成几步的那个模块"。\n"
+        "1) 打比方：抽象概念用生活化比喻。如"世界模型"→"让机器人在脑子里预先推演一遍动作结果，像下棋时在脑子里算几步"。\n"
+        "2) 首次出现的生僻术语，用括号配一句大白话定义。\n"
+        "3) 有具体数字（成功率、速度等）必须写出来，并用"比以前快了近一倍"之类的直观比较。\n"
+        "4) 每个中文字段 30-70 字符，一两句说清楚即可。"
+    )
     user_prompt = (
         "User requirements list:\n"
         f"{chr(10).join(req_lines)}\n\n"
@@ -409,7 +421,8 @@ def call_filter(
         "8) Prioritize real robot validation: papers with real-world robot experiments score higher than simulation-only. "
         "Simulation-only papers should generally not exceed 6 unless the method is clearly transferable and novel.\n"
         "9) Reward hardware + system contributions: papers that demonstrate full mobile manipulation systems "
-        "(perception→planning→control on physical robots) get a +1 to +2 bonus.\n\n"
+        "(perception->planning->control on physical robots) get a +1 to +2 bonus.\n"
+        f"{chinese_style_guide}\n\n"
         "Papers:\n"
         f"{json.dumps(docs, ensure_ascii=False)}\n\n"
         "Output JSON format example:\n"
