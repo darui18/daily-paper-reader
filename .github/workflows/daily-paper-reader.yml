@@ -106,6 +106,7 @@ jobs:
           python -m pip install uv
           python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.5.1+cpu"
           uv pip install --system -r /tmp/req.txt
+          python -m pip install sentence-transformers
 
       - name: Prepare PaperCropper (optional)
         continue-on-error: true
@@ -235,6 +236,7 @@ jobs:
           if [ -n "$RERANKER_PROFILE_INPUT" ]; then
             export RERANK_PROFILE="$RERANKER_PROFILE_INPUT"
           fi
+          export RERANK_PROFILE="${RERANK_PROFILE:-public-zwwen-rerank}"
           ARGS=()
           if [ "$RUN_ENRICH" = "true" ]; then
             ARGS+=(--run-enrich)
