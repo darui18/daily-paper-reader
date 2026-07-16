@@ -27,11 +27,10 @@ CONFIG_FILE = os.getenv("DPR_CONFIG_FILE") or os.path.join(ROOT_DIR, "config.yam
 CRAWL_STATE_FILE = os.path.join(ROOT_DIR, "archive", "crawl_state.json")
 SEEN_IDS_FILE = os.path.join(ROOT_DIR, "archive", "arxiv_seen.json")
 
-# ArXiv 的主要一级分类列表
-# 注意：物理学比较特殊，ArXiv 历史上有很多独立的物理存档，为了保险，我们列出主要的
+# ArXiv 的主要一级分类列表——只抓 cs（含 cs.RO, cs.CV, cs.AI, cs.LG 等）
+# 去除无关分类（math, stat, physics, astro-ph...）以避免 arXiv API 429 rate-limit
 CATEGORIES_TO_FETCH = [
-    "cs", "math", "stat", "q-bio", "q-fin", "eess", "econ",
-    "physics", "cond-mat", "hep-ph", "hep-th", "gr-qc", "astro-ph",
+    "cs",
 ]
 RANGE_TOKEN_RE = re.compile(r"^\d{8}-\d{8}$")
 
