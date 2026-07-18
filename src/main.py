@@ -27,9 +27,15 @@ MAIN_DEFAULT_DAYS = 9
 SKIMS_FETCH_DAYS_THRESHOLD = 11
 
 
-def run_step(label: str, args: list[str], env: dict[str, str] | None = None) -> None:
+def run_step(label: str, args: list[str], env: dict[str, str] | None = None, continue_on_error: bool = False) -> None:
     print(f"[INFO] {label}: {' '.join(args)}", flush=True)
-    subprocess.run(args, check=True, env=env)
+    try:
+        subprocess.run(args, check=True, env=env)
+    except Exception as e:
+        if continue_on_error:
+            print(f"[WARN] {label} 执行失败但已忽略：{e}", flush=True)
+        else:
+            raise
 
 
 def _load_full_config() -> dict:
@@ -680,7 +686,13 @@ def main() -> None:
     run_step(
         "Step 3 - Rerank",
         [python, os.path.join(SRC_DIR, "3.rank_papers.py")],
+        continue_on_error=True,
     )
+    if not os.path.exists(rerank_path) and os.path.exists(rrf_path):
+        import shutil
+        os.makedirs(os.path.dirname(rerank_path), exist_ok=True)
+        shutil.copy2(rrf_path, rerank_path)
+        print(f"[WARN] Step 3 未产出重排结果，已降级使用 Step 2.3 融合结果作为 LLM 输入。", flush=True)
     if trace_ids:
         print_trace_retrieval("RERANK", rerank_path, trace_ids)
     run_step(
